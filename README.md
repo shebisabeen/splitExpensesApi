@@ -21,7 +21,7 @@
     Check " postmanCollection " folder for postman collection with all the above APIs.
 
 *******************
-Database
+# Database
 *******************
 
     Database name is "split_expenses".
@@ -31,8 +31,9 @@ Database
     Password for every user in the sample data is "password".
 
 *******************
-Other Information
+# Other Information
 *******************
  - PHP Laravel
+ - MySql
  - Xampp
  - Postman
