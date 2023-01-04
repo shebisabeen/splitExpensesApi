@@ -75,4 +75,85 @@ class GroupMemberController extends Controller
     {
         //
     }
+
+
+    public function createGroupMember(Request $request)
+    {
+
+        $memberData = GroupMember::create([
+            'group_id' => $request->groupId,
+            'app_user_id' => $request->appUserId,
+        ]);
+
+        $result = [
+            'memberData' => $memberData,
+        ];
+        return $result;
+    }
+
+    public function fetchGroupMembers($id)
+    {
+        $groups = GroupMember::join('app_users', 'group_members.app_user_id', '=', 'app_users.id')
+            ->join('groups', 'group_members.group_id', '=', 'groups.id')
+            ->where('group_members.group_id', $id)
+            ->get(['group_members.id as memberId', 'app_users.name as userName', 'groups.name as groupName', 'group_members.total_paid as totalPaid', 'group_members.total_share as totalShare']);
+        return $groups;
+    }
+
+    public function fetchGroupsByUserId($id)
+    {
+        $groups = GroupMember::join('app_users', 'group_members.app_user_id', '=', 'app_users.id')
+            ->join('groups', 'group_members.group_id', '=', 'groups.id')
+            ->where('group_members.app_user_id', $id)
+            ->get(['group_members.id as memberId', 'app_users.name as userName', 'groups.name as groupName', 'group_members.total_paid as totalPaid', 'group_members.total_share as totalShare']);
+        return $groups;
+    }
+
+    public function getBalances($id)
+    {
+        $membersArray = GroupMember::join('app_users', 'group_members.app_user_id', '=', 'app_users.id')
+            ->where('group_members.group_id', $id)
+            ->get(['group_members.id as memberId', 'app_users.name as fullName', 'total_paid as totalPaid', 'total_share as totalShare']);
+
+        $paidByArray = array();
+        $needToPay = array();
+        $totalToGet = 0;
+        foreach ($membersArray as $memberKey => $memberValue) {
+            if ($memberValue['totalPaid'] > $memberValue['totalShare']) {
+                $singleUser = array();
+                $singleUser['memberId'] = $memberValue['memberId'];
+                $singleUser['fullName'] = $memberValue['fullName'];
+                $singleUser['toGet'] = $memberValue['totalPaid'] - $memberValue['totalShare'];
+                $totalToGet += ($memberValue['totalPaid'] - $memberValue['totalShare']);
+                array_push($paidByArray, $singleUser);
+            } else if ($memberValue['totalPaid'] < $memberValue['totalShare']) {
+                $singleUser = array();
+                $singleUser['memberId'] = $memberValue['memberId'];
+                $singleUser['fullName'] = $memberValue['fullName'];
+                $singleUser['toPay'] = $memberValue['totalShare'] - $memberValue['totalPaid'];
+                array_push($needToPay, $singleUser);
+            }
+        }
+
+        foreach ($paidByArray as $paidMemberKey => $paidMemberValue) {
+            $paidByArray[$paidMemberKey]['percent'] = ($paidMemberValue['toGet'] * 100) / $totalToGet;
+        }
+
+        foreach ($needToPay as $toPayMemberKey => $toPayMemberValue) {
+            $payToUsers = array();
+            foreach ($paidByArray as $paidKey => $paidValue) {
+                $payment = array();
+                $payment['memberId'] = $paidValue['memberId'];
+                $payment['fullName'] = $paidValue['fullName'];
+                $payment['amount'] = ($toPayMemberValue['toPay'] * $paidValue['percent']) / 100;
+                array_push($payToUsers, $payment);
+            }
+            $needToPay[$toPayMemberKey]['payToUsers'] = $payToUsers;
+        }
+
+        $result = [
+            'hasToGet' => $paidByArray, 'needToPay' => $needToPay
+        ];
+        return $result;
+    }
 }

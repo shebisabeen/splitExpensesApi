@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Expense;
+use App\Models\GroupMember;
+use App\Models\AppUser;
 use App\Http\Requests\V1\StoreExpenseRequest;
 use App\Http\Requests\V1\UpdateExpenseRequest;
 use App\Http\Controllers\Controller;
@@ -74,5 +76,50 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense)
     {
         //
+    }
+    public function createExpense(Request $request)
+    {
+        $expenseData = Expense::create([
+            'group_id' => $request->groupId,
+            'description' => $request->description,
+            'amount' => $request->amount,
+            'payer' => $request->payer,
+            'split' => json_encode($request->split),
+        ]);
+        $payerData = GroupMember::where('id', $request->payer)->increment('total_paid', $request->amount);
+        $splitData = $request->split;
+
+        $memberDatas = [];
+        foreach ($splitData as $key => $value) {
+            $memberData = GroupMember::where('id', $value['memberId'])->increment('total_share', $value['amount']);
+            array_push($memberDatas, $memberData);
+        }
+
+        $result = [
+            'expenseData' => $expenseData,
+            'payerData' => $payerData,
+            'memberDatas' => $memberDatas,
+        ];
+        return $result;
+    }
+
+
+    public function expensesDetailsByGroup($id)
+    {
+        $expenseData = Expense::where('group_id', $id)
+            ->get(['expenses.id', 'expenses.description', 'expenses.group_id as groupId', 'expenses.amount', 'expenses.payer', 'expenses.split']);
+
+        foreach ($expenseData as $expenseKey => $expenseValue) {
+            $splitData = [];
+            $splitData = json_decode($expenseValue['split'], true);
+            foreach ($splitData as $splitKey => $splitValue) {
+                $appUserName = GroupMember::join('app_users', 'group_members.app_user_id', '=', 'app_users.id')
+                    ->where('group_members.id', $splitValue['memberId'])
+                    ->get(['app_users.name']);
+                $splitData[$splitKey]['userName'] = $appUserName[0]['name'];
+            }
+            $expenseData[$expenseKey]['split'] = $splitData;
+        }
+        return $expenseData;
     }
 }

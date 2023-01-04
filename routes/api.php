@@ -20,6 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
+    Route::get('groupmembers/fetchGroupMembers/{id}', 'GroupMemberController@fetchGroupMembers');
+    Route::get('groupmembers/fetchGroupsByUserId/{id}', 'GroupMemberController@fetchGroupsByUserId');
+    Route::post('groups/createGroup', 'GroupController@createGroup');
+    Route::post('groupmembers/createGroupMember', 'GroupMemberController@createGroupMember');
+    Route::get('groupmembers/getBalances/{id}', 'GroupMemberController@getBalances');
+    Route::post('expenses/createExpense', 'ExpenseController@createExpense');
+    Route::get('expenses/expensesDetailsByGroup/{id}', 'ExpenseController@expensesDetailsByGroup');
     Route::apiResource('appusers', AppUserController::class);
     Route::apiResource('groups', GroupController::class);
     Route::apiResource('groupmembers', GroupMemberController::class);

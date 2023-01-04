@@ -75,4 +75,12 @@ class AppUserController extends Controller
     {
         //
     }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\AppUser  $appuser
+     * @return \Illuminate\Http\Response
+     */
 }

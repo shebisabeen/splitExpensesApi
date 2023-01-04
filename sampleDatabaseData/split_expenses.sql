@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2023 at 09:24 PM
+-- Generation Time: Jan 04, 2023 at 05:21 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -64,15 +64,15 @@ CREATE TABLE IF NOT EXISTS `expenses` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `expenses`
 --
 
 INSERT INTO `expenses` (`id`, `group_id`, `description`, `amount`, `payer`, `split`, `created_at`, `updated_at`) VALUES
-(1, 1, 'expense 1', 30, 1, '[{memberId:1,amount:10},{memberId:3,amount:20}]', '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
-(2, 1, 'expense 2', 50, 4, '[{memberId:1,amount:10},{memberId:3,amount:20},{memberId:4,amount:20}]', '2023-01-03 13:27:51', '2023-01-03 13:27:51');
+(7, 2, 'expense 1', 50, 2, '[{\"memberId\":2,\"amount\":10},{\"memberId\":5,\"amount\":20},{\"memberId\":8,\"amount\":20}]', '2023-01-03 21:59:59', '2023-01-03 21:59:59'),
+(8, 2, 'expense 2', 80, 2, '[{\"memberId\":2,\"amount\":40},{\"memberId\":5,\"amount\":20},{\"memberId\":8,\"amount\":20}]', '2023-01-03 22:18:51', '2023-01-03 22:18:51');
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `groups`
@@ -119,7 +119,8 @@ INSERT INTO `groups` (`id`, `name`, `description`, `created_by`, `created_at`, `
 (4, 'Group 4', 'Group 4 expenses', 4, '2023-01-03 13:19:29', '2023-01-03 13:19:29'),
 (5, 'Group 6', 'Group 6 expenses', 1, '2023-01-03 14:31:10', '2023-01-03 14:31:10'),
 (6, 'Group 8', 'Group 8 expenses', 2, '2023-01-03 14:36:25', '2023-01-03 14:36:25'),
-(7, 'Group 9', 'Group 9 expenses', 1, '2023-01-03 14:45:42', '2023-01-03 14:45:42');
+(7, 'Group 9', 'Group 9 expenses', 1, '2023-01-03 14:45:42', '2023-01-03 14:45:42'),
+(8, 'Group 10', 'Group 10 expenses', 1, '2023-01-03 20:59:54', '2023-01-03 20:59:54');
 
 -- --------------------------------------------------------
 
@@ -136,20 +137,22 @@ CREATE TABLE IF NOT EXISTS `group_members` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `group_members`
 --
 
 INSERT INTO `group_members` (`id`, `app_user_id`, `group_id`, `total_paid`, `total_share`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 10, 20, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
-(2, 1, 2, 10, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
-(3, 2, 1, 20, 30, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
+(1, 1, 1, 0, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
+(2, 1, 2, 130, 50, '2023-01-03 12:47:05', '2023-01-03 22:18:52'),
+(3, 2, 1, 0, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
 (4, 3, 1, 0, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
-(5, 4, 2, 0, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
+(5, 4, 2, 0, 40, '2023-01-03 12:47:05', '2023-01-03 22:18:52'),
 (6, 5, 1, 0, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05'),
-(8, 5, 2, 0, 0, '2023-01-03 12:47:05', '2023-01-03 12:47:05');
+(8, 5, 2, 0, 40, '2023-01-03 12:47:05', '2023-01-03 22:18:52'),
+(10, 1, 8, 0, 0, '2023-01-03 20:59:54', '2023-01-03 20:59:54'),
+(11, 2, 5, 0, 0, '2023-01-03 21:09:00', '2023-01-03 21:09:00');
 
 -- --------------------------------------------------------
 

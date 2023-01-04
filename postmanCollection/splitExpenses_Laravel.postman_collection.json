@@ -212,6 +212,48 @@
 			"response": []
 		},
 		{
+			"name": "create group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Group 10\",\r\n    \"description\":\"Group 10 expenses\",\r\n    \"createdBy\":1\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/groups/createGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"groups",
+						"createGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "create group members",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
@@ -253,47 +295,6 @@
 			"response": []
 		},
 		{
-			"name": "create group",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"accept": true
-				}
-			},
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"Group 9\",\r\n    \"description\":\"Group 9 expenses\",\r\n    \"createdBy\":1\r\n}\r\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8000/api/v1/groups",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"v1",
-						"groups"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "create expense",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
@@ -311,7 +312,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"groupId\": 1,\r\n    \"description\":\"expense 2\",\r\n    \"amount\": 50,\r\n    \"payer\": 4,\r\n    \"split\": \"[{memberId:1,amount:10},{memberId:3,amount:20},{memberId:4,amount:20}]\"\r\n}",
+					"raw": "{\r\n    \"groupId\": 2,\r\n    \"description\":\"expense 1\",\r\n    \"amount\": 50,\r\n    \"payer\": 2,\r\n    \"split\": [{\"memberId\":2,\"amount\":10},{\"memberId\":5,\"amount\":20},{\"memberId\":8,\"amount\":20}]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -319,7 +320,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/v1/expenses",
+					"raw": "http://localhost:8000/api/v1/expenses/createExpense",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -328,7 +329,8 @@
 					"path": [
 						"api",
 						"v1",
-						"expenses"
+						"expenses",
+						"createExpense"
 					]
 				}
 			},
@@ -410,6 +412,142 @@
 							"key": "groupId[eq]",
 							"value": "1"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get members data by group id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/groupmembers/fetchGroupMembers/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"groupmembers",
+						"fetchGroupMembers",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get expenses by group id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/expenses/expensesDetailsByGroup/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"expenses",
+						"expensesDetailsByGroup",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get balances in a group by group id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/groupmembers/getBalances/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"groupmembers",
+						"getBalances",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get groups by user id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/groupmembers/fetchGroupsByUserId/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"groupmembers",
+						"fetchGroupsByUserId",
+						"1"
 					]
 				}
 			},

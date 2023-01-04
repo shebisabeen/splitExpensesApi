@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Group;
+use App\Models\GroupMember;
 use App\Http\Requests\V1\StoreGroupRequest;
 use App\Http\Requests\V1\UpdateGroupRequest;
 use App\Http\Controllers\Controller;
@@ -74,5 +75,25 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    public function createGroup(Request $request)
+    {
+        $groupData = Group::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'created_by' => $request->createdBy,
+        ]);
+
+        $memberData = GroupMember::create([
+            'group_id' => $groupData->id,
+            'app_user_id' => $request->createdBy,
+        ]);
+
+        $result = [
+            'groupData' => $groupData,
+            'memberData' => $memberData,
+        ];
+        return $result;
     }
 }
