@@ -271,7 +271,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"appUserId\":5,\r\n    \"groupId\":2\r\n}",
+					"raw": "{\r\n    \"appUserId\":\"2\",\r\n    \"groupId\":5\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -279,7 +279,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/v1/groupmembers",
+					"raw": "http://localhost:8000/api/v1/groupmembers/createGroupMember",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -288,7 +288,8 @@
 					"path": [
 						"api",
 						"v1",
-						"groupmembers"
+						"groupmembers",
+						"createGroupMember"
 					]
 				}
 			},
@@ -312,7 +313,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"groupId\": 2,\r\n    \"description\":\"expense 1\",\r\n    \"amount\": 50,\r\n    \"payer\": 2,\r\n    \"split\": [{\"memberId\":2,\"amount\":10},{\"memberId\":5,\"amount\":20},{\"memberId\":8,\"amount\":20}]\r\n}",
+					"raw": "{\r\n    \"groupId\": 2,\r\n    \"description\":\"expense 1\",\r\n    \"amount\": 80,\r\n    \"payer\": 2,\r\n    \"split\": [{\"memberId\":2,\"amount\":40},{\"memberId\":5,\"amount\":20},{\"memberId\":8,\"amount\":20}]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -396,7 +397,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/api/v1/groupmembers?groupId[eq]=1",
+					"raw": "http://localhost:8000/api/v1/groupmembers?groupId[eq]=5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -410,7 +411,7 @@
 					"query": [
 						{
 							"key": "groupId[eq]",
-							"value": "1"
+							"value": "5"
 						}
 					]
 				}
