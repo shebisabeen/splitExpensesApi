@@ -1,7 +1,7 @@
 
-############################
+*******************
 # splitExpensesApi
-############################
+*******************
 
     Backend for a project similar to splitwise, where using APIs you can 
         1. Create user
